@@ -10,31 +10,32 @@ import { Component } from '@angular/core';
 export class InteraccionVentana1Component {
   nuevaVentana: Window | null = null;
   resolucion = {
-    ancho: 400,
-    alto: 400
+    ancho: 200,
+    alto: 200
   };
 
-  abrirVentana() {
+  resolucionVentana: string = '';
 
+  abrirVentana() {
     if (this.nuevaVentana) {
       this.nuevaVentana.close();
     }
     this.nuevaVentana = window.open('', 'Ventana1', `width=${this.resolucion.ancho},height=${this.resolucion.alto}`);
+    this.actualizarResolucion(this.resolucion);
   }
 
   redimensionarVentana() {
     if (this.nuevaVentana) {
       let ancho = prompt('Ancho de la ventana', '400');
       let alto = prompt('Alto de la ventana', '400');
-      this.nuevaVentana.resizeTo(Number(ancho), Number(alto));
-      this.actualizarResolucion();
+      this.actualizarResolucion({ ancho: Number(ancho), alto: Number(alto) });
     }
   }
 
-  actualizarResolucion() {
-    if (this.nuevaVentana) {
-      this.resolucion.ancho = this.nuevaVentana.outerWidth;
-      this.resolucion.alto = this.nuevaVentana.outerHeight;
+  actualizarResolucion(resolucion?: { ancho: number, alto: number }) {
+    if (resolucion) {
+      this.resolucion = resolucion;
     }
+    this.resolucionVentana = `Ancho: ${this.resolucion.ancho}px, Alto: ${this.resolucion.alto}px`;
   }
 }
